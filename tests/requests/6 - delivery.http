@@ -1,0 +1,27 @@
+### Create delivery
+
+#URI sugerida: /api/v{n}/deal/{ID}/deliveries
+#Public: NÃO
+#Tipo: POST
+#Requests: { “user_id": INT }
+#Return Success: { “delivery": OBJECT }
+#Return Fail: { "message" : STRING }
+
+POST {{host}}/deal/{{deal_id}}/deliveries
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": {{user_id}}
+}
+
+### Find delivery
+
+#URI sugerida: /api/v{n}/deals/{ID}/deliveries
+#Public: SIM
+#Tipo: GET
+#Return Success: { “delivery” : OBJECT, “steps” : [ OBJECT, OBJECT ] }
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/deal/{{deal_id}}/deliveries
+Content-Type: application/json

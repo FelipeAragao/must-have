@@ -1,0 +1,60 @@
+### Create invite
+#URI sugerida: /api/v{n}/users{ID}/invites
+#Public: Não
+#Tipo: POST
+#Request: { "name": STRING, "email": STRING, “user” : INT, “user_invited” : INT }
+#Return Success: { "invite" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+POST {{host}}/users/{{user_id}}/invites
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Teste",
+  "email": "",
+  "user": 1,
+  "user_invited": 1
+}
+
+### Update invite
+
+#URI sugerida: /api/v{n}/users{ID}/invites/{ID}
+#Public: Não
+#Tipo: PUT
+#Request: { "name": STRING, "email": STRING, “user” : INT, “user_invited” : INT }
+#Return Success: { "invite" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+PUT {{host}}/users/{{user_id}}/invites/{{invite_id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Teste",
+  "email": "",
+  "user": 1,
+  "user_invited": 1
+}
+
+### Find invite
+#URI sugerida: /api/v{n}/users/{ID}/invites/{ID}
+#Public: NÃO
+#Tipo: GET
+#Return Success: { "invite" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/users/{{user_id}}/invites/{{invite_id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Find all invites
+#URI sugerida: /api/v{n}/users/{ID}/invites
+#Public: NÃO
+#Tipo: GET
+#Return Success: [ { "invite" : OBJECT }, { "invite" : OBJECT }, { "invite" : OBJECT }]
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/users/{{user_id}}/invites
+Content-Type: application/json
+Authorization: Bearer {{token}}

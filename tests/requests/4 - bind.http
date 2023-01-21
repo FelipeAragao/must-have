@@ -1,0 +1,57 @@
+### Create bid for deal
+#URI sugerida: / api/v{n}/deals/{ID}/bids
+#Public: Não
+#Tipo: POST
+#Requests: { “user_id": INT, “accepted": BOOLEAN, “value": DOUBLE, “description” : STRING }
+#Return Success: { “bid" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+POST {{host}}/deals/{{deal_id}}/bids
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": {{user_id}},
+  "accepted": true,
+  "value": 1.0,
+  "description": ""
+}
+
+### Update bid for deal
+#URI sugerida: / api/v{n}/deals/{ID}/bids/{ID}
+#Public: Não
+#Tipo: PUT
+#Requests: { “user_id": INT, “accepted": BOOLEAN, “value": DOUBLE, “description” : STRING }
+#Return Success: { “bid" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+PUT {{host}}/deals/{{deal_id}}/bids/{{bid_id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": 1,
+  "accepted": true,
+  "value": 1.0,
+  "description": ""
+}
+
+### Find bid for deal
+#URI sugerida: /api/v{n}/deals/{ID}/bids/{ID}
+#Public: SIM
+#Tipo: GET
+#Return Success: { “bid" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/deals/{{deal_id}}/bids/{{bid_id}}
+Content-Type: application/json
+
+### Find all bids for deal
+#URI sugerida: /api/v{n}/deals/{ID}/bids
+#Public: SIM
+#Tipo: GET
+#Return Success: [ { “bid" : OBJECT }, { “bid" : OBJECT }, { “bid" : OBJECT } ]
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/deals/{{deal_id}}/bids
+Content-Type: application/json

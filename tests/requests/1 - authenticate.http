@@ -1,0 +1,35 @@
+### Login to the API
+
+#URI sugerida: /api/v{n}/authenticate
+#Public: SIM
+#Tipo: POST
+#Request: { "login": STRING; "password": STRING }
+#Return Success: { "token": JWT, "user": OBJECT }
+#Return Fail: { "error" : STRING }
+
+POST {{host}}/authenticate
+Content-Type: application/json
+
+{
+  "login": {{login}},
+  "password": {{password}}
+ }
+
+> {% client.global.set("app_token", response.body.json.token); %}
+
+### Reflesh the token
+
+#URI sugerida: /api/v{n}/authenticate/sso
+#Public: SIM
+#Tipo: POST
+#Request: { "login": STRING; "app_token": STRING }
+#Return Success: { "token": JWT, "user": OBJECT }
+#Return Fail: { "error" : STRING }
+
+POST {{host}}/authenticate/sso
+Content-Type: application/json
+
+{
+  "login": {{login}},
+  "app_token": {{app_token}}
+}

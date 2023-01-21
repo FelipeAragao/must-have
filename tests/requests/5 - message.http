@@ -1,0 +1,55 @@
+### Create message
+#URI sugerida: /api/v{n}/deals/{ID}/messages
+#Public: Não
+#Tipo: POST
+#Requests: { “user_id": INT, “title": STRING, “message” : STRING }
+#Return Success: { “message" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+POST {{host}}/deals/{{deal_id}}/messages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": 1,
+  "title": "Teste",
+  "message": "Teste"
+}
+
+### Update message
+#URI sugerida: / api/v{n}/deals/{ID}/messages/{ID}
+#Public: Não
+#Tipo: PUT
+#Requests: { “user_id": INT, “title": STRING, “message” : STRING }
+#Return Success: { “message" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+PUT {{host}}/deals/{{deal_id}}/messages/{{message_id}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": 1,
+  "title": "Teste",
+  "message": "Teste"
+}
+
+### Find message
+#URI sugerida: /api/v{n}/deals/{ID}/messages/{ID}
+#Public: SIM
+#Tipo: GET
+#Return Success: { “message" : OBJECT }
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/deals/{{deal_id}}/messages/{{message_id}}
+Content-Type: application/json
+
+### Find all messages
+#URI sugerida: /api/v{n}/deals/{ID}/messages
+#Public: SIM
+#Tipo: GET
+#Return Success: [ { “message" : OBJECT }, { “message" : OBJECT }, { “message" : OBJECT } ]
+#Return Fail: { "error" : STRING }
+
+GET {{host}}/deals/{{deal_id}}/messages
+Content-Type: application/json
