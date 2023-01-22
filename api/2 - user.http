@@ -3,7 +3,7 @@
 #URI sugerida: /api/v{n}/users
 #Public: Não
 #Tipo: POST
-#Request: { "name": "", "email": "", "login": ""; "password": "", "location" : { "lat" : 1.0, "lng" : 1.0, "address" : "", "city" : "", "state": "", "zip_code" : INT } }
+#Request: { "name": STRING, "email": STRING, "login": STRING; "password": STRING, “location” : { “lat” : DOUBLE, “lng” : DOUBLE, “address” : STRING, “city” : STRING, “state”: STRING, “zip_code” : INT } }
 #Return Success: { "user" : OBJECT }
 #Return Fail: { "error" : "" }
 
