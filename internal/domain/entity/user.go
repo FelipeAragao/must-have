@@ -24,15 +24,36 @@ type Location struct {
 }
 
 func NewUser(name string, email string, login string, password string, location Location) (*User, error) {
-	user := &User{ID: entity.NewID(), Name: name, Email: email, Login: login, Password: password, Location: location}
+	u := User{
+		ID:       entity.NewID(),
+		Name:     name,
+		Email:    email,
+		Login:    login,
+		Password: password,
+		Location: location,
+	}
 
-	err := user.validate()
+	err := u.validate()
 	if err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return &u, nil
+}
 
+func (u User) Modify(name string, email string, login string, password string, location Location) (*User, error) {
+	u.Name = name
+	u.Email = email
+	u.Login = login
+	u.Password = password
+	u.Location = location
+
+	err := u.validate()
+	if err != nil {
+		return nil, err
+	}
+
+	return &u, nil
 }
 
 func (u User) validate() error {
