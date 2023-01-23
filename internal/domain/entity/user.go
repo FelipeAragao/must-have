@@ -3,15 +3,19 @@ package entity
 import (
 	"github.com/FelipeAragao/must-have/pkg/entity"
 	"github.com/FelipeAragao/must-have/pkg/utils"
+	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 type User struct {
-	ID       entity.ID `json:"id"`
-	Name     string    `json:"name" validate:"required,min=3,max=100"`
-	Email    string    `json:"email" validate:"required,email"`
-	Login    string    `json:"login" validate:"required,min=3,max=50"`
-	Password string    `json:"-" validate:"required,min=8,max=15"`
-	Location Location  `json:"location" validate:"required,dive"`
+	ID        entity.ID `json:"id"`
+	Name      string    `json:"name" validate:"required,min=3,max=100"`
+	Email     string    `json:"email" validate:"required,email"`
+	Login     string    `json:"login" validate:"required,min=3,max=50"`
+	Password  string    `json:"-" validate:"required"`
+	Location  Location  `json:"location" validate:"required,dive"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Location struct {
@@ -24,16 +28,24 @@ type Location struct {
 }
 
 func NewUser(name string, email string, login string, password string, location Location) (*User, error) {
-	u := User{
-		ID:       entity.NewID(),
-		Name:     name,
-		Email:    email,
-		Login:    login,
-		Password: password,
-		Location: location,
+
+	hash, err := generatePassword(password)
+	if err != nil {
+		return nil, err
 	}
 
-	err := u.validate()
+	u := User{
+		ID:        entity.NewID(),
+		Name:      name,
+		Email:     email,
+		Login:     login,
+		Password:  hash,
+		Location:  location,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	err = u.validate()
 	if err != nil {
 		return nil, err
 	}
@@ -42,10 +54,21 @@ func NewUser(name string, email string, login string, password string, location 
 }
 
 func (u *User) Modify() error {
-	err := utils.Struct(u)
+	err := u.validate()
 	if err != nil {
 		return err
 	}
+
+	u.UpdatedAt = time.Now()
+	return nil
+}
+
+func (u *User) ChangePassword(password string) error {
+	hash, err := generatePassword(password)
+	if err != nil {
+		return err
+	}
+	u.Password = hash
 	return nil
 }
 
@@ -55,4 +78,12 @@ func (u User) validate() error {
 		return err
 	}
 	return nil
+}
+
+func generatePassword(pwd string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
+	if err != nil {
+		return "", utils.ErrorMessage("password", "error generating password")
+	}
+	return string(hash), nil
 }

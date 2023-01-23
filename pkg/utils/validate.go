@@ -30,21 +30,29 @@ func Struct(s interface{}) error {
 	if err != nil {
 		errs := err.(validator.ValidationErrors)
 		for _, e := range errs {
-
-			m := struct {
-				Message string `json:"message"`
-				Field   string `json:"field"`
-			}{
-				Message: e.Translate(trans),
-				Field:   e.Field(),
-			}
-
-			out, _ := json.Marshal(m)
-			messages = append(messages, string(out))
+			messages = append(messages, notification(e.Field(), e.Translate(trans)))
 		}
 
 		return errors.New(strings.Join(messages, "|"))
 	}
 
 	return nil
+}
+
+func ErrorMessage(field string, message string) error {
+	return errors.New(notification(field, message))
+}
+
+func notification(field string, message string) string {
+	m := struct {
+		Message string `json:"message"`
+		Field   string `json:"field"`
+	}{
+		Message: message,
+		Field:   field,
+	}
+
+	out, _ := json.Marshal(m)
+
+	return string(out)
 }

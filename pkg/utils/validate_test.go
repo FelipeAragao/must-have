@@ -46,3 +46,10 @@ func TestStructWithoutError(t *testing.T) {
 	err := Struct(testStruct)
 	assert.Nil(t, err)
 }
+
+func TestErrorMessage(t *testing.T) {
+	err := ErrorMessage("FieldTest", "FieldTest is a required field")
+	assert.NotNil(t, err)
+	assert.Equal(t, "{\"message\":\"FieldTest is a required field\",\"field\":\"FieldTest\"}", err.Error())
+
+}
