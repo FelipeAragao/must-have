@@ -41,19 +41,12 @@ func NewUser(name string, email string, login string, password string, location 
 	return &u, nil
 }
 
-func (u User) Modify(name string, email string, login string, password string, location Location) (*User, error) {
-	u.Name = name
-	u.Email = email
-	u.Login = login
-	u.Password = password
-	u.Location = location
-
-	err := u.validate()
+func (u *User) Modify() error {
+	err := utils.Struct(u)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	return &u, nil
+	return nil
 }
 
 func (u User) validate() error {

@@ -71,28 +71,22 @@ func TestUser_Modify(t *testing.T) {
 
 	user, _ := NewUser(name, email, login, password, location)
 
-	NameNew := "John Silva"
-	emailNew := "john.silva@vibbra.com.br"
-	passwordNew := "123456789"
-	locationNew := Location{}
-	locationNew.Lat = -23.5506507
-	locationNew.Lng = -46.6333824
-	locationNew.Address = "Rua Vergueiro, 3185"
-	locationNew.City = "São Paulo"
-	locationNew.State = "SP"
-	locationNew.ZipCode = 65000000
+	user.Name = "John Silva"
+	user.Email = "john.silva@vibbra.com.br"
+	user.Password = "123456789"
+	user.Login = "john.silva"
+	user.Location.Lat = -23.5506507
+	user.Location.Lng = -46.6333824
+	user.Location.Address = "Rua Vergueiro, 3185"
+	user.Location.City = "São Paulo"
+	user.Location.State = "SP"
+	user.Location.ZipCode = 65000000
 
-	userNew, err := user.Modify(NameNew, emailNew, login, passwordNew, location)
+	err := user.Modify()
 	assert.Nil(t, err)
-	assert.NotNil(t, userNew)
-	assert.Equal(t, NameNew, userNew.Name)
-	assert.Equal(t, emailNew, userNew.Email)
-	assert.Equal(t, passwordNew, userNew.Password)
-	assert.Equal(t, locationNew, userNew.Location)
 }
 
 func TestUser_ModifyWithErrors(t *testing.T) {
-
 	name := "John Doe"
 	email := "john.doe@vibbra.com.br"
 	login := "john.doe"
@@ -108,19 +102,18 @@ func TestUser_ModifyWithErrors(t *testing.T) {
 
 	user, _ := NewUser(name, email, login, password, location)
 
-	NameNew := ""
-	emailNew := "john.silva.vibbra.com.br"
-	passwordNew := "123456789"
-	locationNew := Location{}
-	locationNew.Lat = -23.5506507
-	locationNew.Lng = -46.6333824
-	locationNew.Address = "Rua Vergueiro, 3185"
-	locationNew.City = "São Paulo"
-	locationNew.State = "SP"
-	locationNew.ZipCode = 65000000
+	user.Name = ""
+	user.Email = "john.silva.vibbra.com.br"
+	user.Password = "12"
+	user.Login = ""
+	user.Location.Lat = -23.5506507
+	user.Location.Lng = -46.6333824
+	user.Location.Address = "Rua Vergueiro, 3185"
+	user.Location.City = "São Paulo"
+	user.Location.State = "SP"
+	user.Location.ZipCode = 65000000
 
-	userNew, err := user.Modify(NameNew, emailNew, login, passwordNew, location)
+	err := user.Modify()
 	assert.NotNil(t, err)
-	assert.Nil(t, userNew)
-	assert.Equal(t, "{\"message\":\"Name is a required field\",\"field\":\"Name\"}|{\"message\":\"Email must be a valid email address\",\"field\":\"Email\"}", err.Error())
+	assert.Equal(t, "{\"message\":\"Name is a required field\",\"field\":\"Name\"}|{\"message\":\"Email must be a valid email address\",\"field\":\"Email\"}|{\"message\":\"Login is a required field\",\"field\":\"Login\"}|{\"message\":\"Password must be at least 8 characters in length\",\"field\":\"Password\"}", err.Error())
 }
