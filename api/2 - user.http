@@ -67,3 +67,14 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
+### change password
+PUT {{host}}/users/{{user_id}}/change_password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "password": "",
+  "new_password": ""
+}
+
+

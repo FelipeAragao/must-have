@@ -69,6 +69,7 @@ func (u *User) ChangePassword(password string) error {
 		return err
 	}
 	u.Password = hash
+	u.UpdatedAt = time.Now()
 	return nil
 }
 
