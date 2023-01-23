@@ -142,3 +142,22 @@ func TestUser_ChangePassword(t *testing.T) {
 	assert.NotNil(t, user)
 	assert.NotEmpty(t, user.Password)
 }
+
+func TestUser_ValidatePassword(t *testing.T) {
+	name := "John Doe"
+	email := "john.doe@vibbra.com.br"
+	login := "john.doe"
+	password := "12345678"
+
+	location := Location{}
+	location.Lat = -23.5506507
+	location.Lng = -46.6333824
+	location.Address = "Rua Vergueiro, 3185"
+	location.City = "São Paulo"
+	location.State = "SP"
+	location.ZipCode = 65000000
+
+	user, _ := NewUser(name, email, login, password, location)
+	assert.True(t, user.ValidatePassword("12345678"))
+	assert.False(t, user.ValidatePassword("123456789"))
+}

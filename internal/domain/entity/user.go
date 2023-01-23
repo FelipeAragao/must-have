@@ -72,6 +72,11 @@ func (u *User) ChangePassword(password string) error {
 	return nil
 }
 
+func (u *User) ValidatePassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	return err == nil
+}
+
 func (u User) validate() error {
 	err := utils.Struct(u)
 	if err != nil {
