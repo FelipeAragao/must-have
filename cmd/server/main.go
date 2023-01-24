@@ -28,5 +28,5 @@ func main() {
 	)
 	r := s.Start()
 
-	http.ListenAndServe(configs.WebServerPort, r)
+	http.ListenAndServe(configs.ServerPort, r)
 }

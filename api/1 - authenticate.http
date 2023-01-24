@@ -8,14 +8,10 @@
 #Return Fail: { "error" : STRING }
 
 POST {{host}}/authenticate
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "login": {{login}},
-  "password": {{password}}
- }
+grant_type=password&username=user01&password=12345
 
-> {% client.global.set("app_token", response.body.json.token); %}
 
 ### Reflesh the token
 

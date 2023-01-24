@@ -7,4 +7,6 @@ migrate:
 migratedown:
 	migrate -path=migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose down
 
-.PHONY: migrate migratedown createmigration
+wire:
+	wire ./...
+.PHONY: migrate migratedown createmigration wire
