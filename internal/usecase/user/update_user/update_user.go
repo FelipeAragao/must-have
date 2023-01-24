@@ -2,7 +2,7 @@ package update_user
 
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
-	"github.com/FelipeAragao/must-have/pkg/utils"
+	"github.com/FelipeAragao/must-have/pkg/validate"
 	"time"
 )
 
@@ -62,14 +62,14 @@ func (uc *UpdateUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error
 	if input.Email != user.Email {
 		_, err = uc.UserGateway.FindByEmail(input.Email)
 		if err == nil {
-			return nil, utils.ErrorMessage("email", "email already exists")
+			return nil, validate.ErrorMessage("email", "email already exists")
 		}
 	}
 
 	if input.Login != user.Login {
 		_, err = uc.UserGateway.FindByLogin(input.Login)
 		if err == nil {
-			return nil, utils.ErrorMessage("login", "login already exists")
+			return nil, validate.ErrorMessage("login", "login already exists")
 		}
 	}
 

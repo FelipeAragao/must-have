@@ -3,7 +3,7 @@ package create_user
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/entity"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
-	"github.com/FelipeAragao/must-have/pkg/utils"
+	"github.com/FelipeAragao/must-have/pkg/validate"
 	"time"
 )
 
@@ -71,12 +71,12 @@ func (uc *CreateUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error
 
 	_, err = uc.UserGateway.FindByEmail(user.Email)
 	if err == nil {
-		return nil, utils.ErrorMessage("email", "email already exists")
+		return nil, validate.ErrorMessage("email", "email already exists")
 	}
 
 	_, err = uc.UserGateway.FindByLogin(user.Login)
 	if err == nil {
-		return nil, utils.ErrorMessage("login", "login already exists")
+		return nil, validate.ErrorMessage("login", "login already exists")
 	}
 
 	err = uc.UserGateway.Create(user)

@@ -2,7 +2,7 @@ package entity
 
 import (
 	"github.com/FelipeAragao/must-have/pkg/entity"
-	"github.com/FelipeAragao/must-have/pkg/utils"
+	"github.com/FelipeAragao/must-have/pkg/validate"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
@@ -79,7 +79,7 @@ func (u *User) ValidatePassword(password string) bool {
 }
 
 func (u User) validate() error {
-	err := utils.Struct(u)
+	err := validate.Struct(u)
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func (u User) validate() error {
 func generatePassword(pwd string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(pwd), bcrypt.DefaultCost)
 	if err != nil {
-		return "", utils.ErrorMessage("password", "error generating password")
+		return "", validate.ErrorMessage("password", "error generating password")
 	}
 	return string(hash), nil
 }

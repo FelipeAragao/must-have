@@ -2,7 +2,7 @@ package find_by_id_user
 
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
-	"github.com/FelipeAragao/must-have/pkg/utils"
+	"github.com/FelipeAragao/must-have/pkg/validate"
 	"time"
 )
 
@@ -45,7 +45,7 @@ func NewFindByIdUserUseCase(userGateway gateway.UserGateway) *FindByIdUserUseCas
 func (uc *FindByIdUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error) {
 
 	if input == nil || input.ID == "" {
-		return nil, utils.ErrorMessage("id", "id is required")
+		return nil, validate.ErrorMessage("id", "id is required")
 	}
 
 	user, err := uc.UserGateway.FindByID(input.ID)
