@@ -1,8 +1,19 @@
 version: '3'
 
 services:
-  goapp:
-    build: .
+#  must-have:
+#    build: .
+#    ports:
+#      - "8080:8080"
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: must-have
+      MYSQL_USER: test
+      MYSQL_PASSWORD: root
     ports:
-      - "8080:8080"
+      - 3306:3306
     
