@@ -1,4 +1,2 @@
-/.idea/.gitignore
-/.idea/modules.xml
-/.idea/must-have.iml
-/.idea/vcs.xml
+/.idea/
+/data/

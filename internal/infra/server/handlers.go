@@ -1,6 +1,7 @@
 package server
 
 import (
+	"database/sql"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -14,10 +15,12 @@ type Server struct {
 	Router       chi.Router
 	JWTSecret    string
 	JWTExperesIn int
+	DB           *sql.DB
 }
 
-func NewServer(secret string, experesIn int) *Server {
+func NewServer(db *sql.DB, secret string, experesIn int) *Server {
 	return &Server{
+		DB:           db,
 		Router:       chi.NewRouter(),
 		JWTSecret:    secret,
 		JWTExperesIn: experesIn,
