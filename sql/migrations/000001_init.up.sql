@@ -1,9 +1,9 @@
 create table user
 (
-    id                binary(16)   not null primary key,
+    id                varchar(36)   not null primary key,
     name              varchar(255) not null,
-    email             varchar(255) not null,
-    login             varchar(255) not null,
+    email             varchar(255) not null unique,
+    login             varchar(255) not null unique,
     password          varchar(255) not null,
     location_lat      double       null,
     location_lng      double       null,

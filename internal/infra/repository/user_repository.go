@@ -128,7 +128,7 @@ func (r *UserRepository) FindByEmail(email string) (*entity.User, error) {
 }
 
 func (r *UserRepository) FindByLogin(login string) (*entity.User, error) {
-	user, err := r.queries.FindByEmail(r.cxt, login)
+	user, err := r.queries.FindByLogin(r.cxt, login)
 	if err != nil {
 		return nil, err
 	}

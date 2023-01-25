@@ -46,12 +46,12 @@ func TestCreateUserUseCase_Execute(t *testing.T) {
 		Email: "john.silva@vibbra.com.br",
 		Login: "john.silva",
 		Location: struct {
-			Lat     float64
-			Lng     float64
-			Address string
-			City    string
-			State   string
-			ZipCode int
+			Lat     float64 `json:"lat"`
+			Lng     float64 `json:"lng"`
+			Address string  `json:"address"`
+			City    string  `json:"city"`
+			State   string  `json:"state"`
+			ZipCode int     `json:"zip_code"`
 		}{
 			Lat:     -23.5506507,
 			Lng:     -46.6333824,

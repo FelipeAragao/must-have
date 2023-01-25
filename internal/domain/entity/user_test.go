@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -21,6 +23,10 @@ func TestNewUser(t *testing.T) {
 	location.ZipCode = 65000000
 
 	user, err := NewUser(name, email, login, password, location)
+
+	b, _ := json.Marshal(user)
+	fmt.Println(string(b))
+	// TODO: remover código comentado
 
 	assert.Nil(t, err)
 	assert.NotNil(t, user)

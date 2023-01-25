@@ -17,4 +17,7 @@ migrate-sqlc:
 	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose up
 	sqlc generate
 
+swagger:
+	swag init -g cmd/server/main.go
+
 .PHONY: migrate migratedown createmigration wire sqlc migrate-sqlc

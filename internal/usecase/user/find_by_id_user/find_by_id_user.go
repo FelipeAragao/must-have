@@ -7,25 +7,24 @@ import (
 )
 
 type UserInputDTO struct {
-	ID string
+	ID string `json:"id"`
 }
 
 type UserOutputDTO struct {
-	ID       string
-	Name     string
-	Email    string
-	Login    string
-	Password string
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Login    string `json:"login"`
 	Location struct {
-		Lat     float64
-		Lng     float64
-		Address string
-		City    string
-		State   string
-		ZipCode int
-	}
-	CreatedAt time.Time
-	UpdatedAt time.Time
+		Lat     float64 `json:"lat"`
+		Lng     float64 `json:"lng"`
+		Address string  `json:"address"`
+		City    string  `json:"city"`
+		State   string  `json:"state"`
+		ZipCode int     `json:"zip_code"`
+	} `json:"location"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type FindByIdUserUseCase struct {
@@ -57,12 +56,12 @@ func (uc *FindByIdUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, err
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 		Location: struct {
-			Lat     float64
-			Lng     float64
-			Address string
-			City    string
-			State   string
-			ZipCode int
+			Lat     float64 `json:"lat"`
+			Lng     float64 `json:"lng"`
+			Address string  `json:"address"`
+			City    string  `json:"city"`
+			State   string  `json:"state"`
+			ZipCode int     `json:"zip_code"`
 		}{
 			Lat:     user.Location.Lat,
 			Lng:     user.Location.Lng,

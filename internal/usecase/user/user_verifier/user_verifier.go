@@ -1,6 +1,7 @@
 package user_verifier
 
 import (
+	"errors"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/go-chi/oauth"
 	"net/http"
@@ -15,14 +16,14 @@ func NewUserVerifier(userGateway gateway.UserGateway) *UserVerifier {
 }
 
 func (u *UserVerifier) ValidateUser(username, password, scope string, r *http.Request) error {
-	_, err := u.UserGateway.FindByLogin(username)
+	user, err := u.UserGateway.FindByLogin(username)
 	if err != nil {
 		return err
 	}
 
-	//if !user.ValidatePassword(password) {
-	//	return errors.New("Not authorized")
-	//}
+	if !user.ValidatePassword(password) {
+		return errors.New("Not authorized")
+	}
 
 	return nil
 }
