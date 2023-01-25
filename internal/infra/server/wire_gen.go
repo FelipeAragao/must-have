@@ -9,7 +9,8 @@ package server
 import (
 	"database/sql"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
-	"github.com/FelipeAragao/must-have/internal/infra/database"
+	"github.com/FelipeAragao/must-have/internal/infra/handlers"
+	"github.com/FelipeAragao/must-have/internal/infra/repository"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
 	"github.com/google/wire"
 )
@@ -17,11 +18,17 @@ import (
 // Injectors from wire.go:
 
 func InitializeUserVerifier(db *sql.DB) *user_verifier.UserVerifier {
-	userRepository := database.NewUserRepository(db)
+	userRepository := repository.NewUserRepository(db)
 	userVerifier := user_verifier.NewUserVerifier(userRepository)
 	return userVerifier
 }
 
+func InitializeUserHandler(db *sql.DB) *handlers.UserHandler {
+	userRepository := repository.NewUserRepository(db)
+	userHandler := handlers.NewUserHandler(userRepository)
+	return userHandler
+}
+
 // wire.go:
 
-var setRepositoryDependency = wire.NewSet(database.NewUserRepository, wire.Bind(new(gateway.UserGateway), new(*database.UserRepository)))
+var setRepositoryDependency = wire.NewSet(repository.NewUserRepository, wire.Bind(new(gateway.UserGateway), new(*repository.UserRepository)))

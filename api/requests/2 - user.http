@@ -9,24 +9,38 @@
 
 POST {{host}}/users
 Content-Type: application/json
-Authorization: Bearer {{token}}
 
 {
-  "name": "",
-  "email": "",
-  "login": "",
-  "password": "",
+  "name":"John Doe",
+  "email":"john.doe@vibbra.com.br",
+  "login":"john.doe",
+  "password": "abc123639",
   "location": {
-    "lat": 1.0,
-    "lng": 1.0,
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip_code": 1
+    "lat": -23.5506507,
+    "lng": -46.6333824,
+    "address": "Rua Vergueiro, 3185",
+    "city": "São Paulo",
+    "state": "SP",
+    "zip_code": 65000000
   }
 }
 
+
 > {% client.global.set("user_id", response.body.json.user.id); %}
+
+### Authenticate Users
+POST {{host}}/authenticate
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Fiddler
+Host: localhost:3000
+
+grant_type=password&username=john.doe&password=abc123639
+
+
+> {%
+    client.global.set("token", response.body.access_token)
+    client.global.set("user_id", response.body.properties.user_id)
+%}
 
 ### Update User
 #URI sugerida: /api/v{n}/users/{ID}
@@ -41,17 +55,16 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "",
-  "email": "",
-  "login": "",
-  "password": "",
+  "name": "John Silva",
+  "email": "john.silva@vibbra.com.br",
+  "login": "john.doe",
   "location": {
-    "lat": 1.0,
-    "lng": 1.0,
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip_code": 1
+    "lat": -23.5506507,
+    "lng": -46.6333824,
+    "address": "Rua Vergueiro, 3185",
+    "city": "São Paulo",
+    "state": "SP",
+    "zip_code": 65000000
   }
 }
 
@@ -62,19 +75,20 @@ Authorization: Bearer {{token}}
 #Return Success: { "user" : OBJECT }
 #Return Fail: { "error" : STRING }
 
+
 GET {{host}}/users/{{user_id}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### change password
-PUT {{host}}/users/{{user_id}}/change_password
+PUT {{host}}/users/{{user_id}}/change-password
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "password": "",
-  "new_password": ""
+  "password": "abc123639",
+  "new_password": "123639abc"
 }
 
 

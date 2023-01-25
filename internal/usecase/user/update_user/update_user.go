@@ -7,32 +7,32 @@ import (
 )
 
 type UserInputDTO struct {
-	ID       string
-	Name     string
-	Email    string
-	Login    string
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Login    string `json:"login"`
 	Location struct {
-		Lat     float64
-		Lng     float64
-		Address string
-		City    string
-		State   string
-		ZipCode int
+		Lat     float64 `json:"lat"`
+		Lng     float64 `json:"lng"`
+		Address string  `json:"address"`
+		City    string  `json:"city"`
+		State   string  `json:"state"`
+		ZipCode int     `json:"zip_code"`
 	}
 }
 
 type UserOutputDTO struct {
-	ID       string
-	Name     string
-	Email    string
-	Login    string
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Login    string `json:"login"`
 	Location struct {
-		Lat     float64
-		Lng     float64
-		Address string
-		City    string
-		State   string
-		ZipCode int
+		Lat     float64 `json:"lat"`
+		Lng     float64 `json:"lng"`
+		Address string  `json:"address"`
+		City    string  `json:"city"`
+		State   string  `json:"state"`
+		ZipCode int     `json:"zip_code"`
 	}
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -101,12 +101,12 @@ func (uc *UpdateUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 		Location: struct {
-			Lat     float64
-			Lng     float64
-			Address string
-			City    string
-			State   string
-			ZipCode int
+			Lat     float64 `json:"lat"`
+			Lng     float64 `json:"lng"`
+			Address string  `json:"address"`
+			City    string  `json:"city"`
+			State   string  `json:"state"`
+			ZipCode int     `json:"zip_code"`
 		}{
 			Lat:     user.Location.Lat,
 			Lng:     user.Location.Lng,

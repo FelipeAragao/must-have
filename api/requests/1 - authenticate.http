@@ -9,9 +9,18 @@
 
 POST {{host}}/authenticate
 Content-Type: application/x-www-form-urlencoded
+User-Agent: Fiddler
+Host: localhost:3000
 
-grant_type=password&username=user01&password=12345
+grant_type=password&username=john.doe&password=abc123639
 
+
+> {%
+    client.global.set("token", response.body.access_token)
+    client.global.set("user_id", response.body.properties.user_id)
+
+    client.log("user_id: " + client.global.get("user_id"))
+%}
 
 ### Reflesh the token
 
@@ -23,9 +32,7 @@ grant_type=password&username=user01&password=12345
 #Return Fail: { "error" : STRING }
 
 POST {{host}}/authenticate/sso
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "login": {{login}},
-  "app_token": {{app_token}}
-}
+grant_type=refresh_token&refresh_token={{refresh}}
+

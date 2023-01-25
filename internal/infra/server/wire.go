@@ -6,14 +6,15 @@ package server
 import (
 	"database/sql"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
-	"github.com/FelipeAragao/must-have/internal/infra/database"
+	"github.com/FelipeAragao/must-have/internal/infra/handlers"
+	"github.com/FelipeAragao/must-have/internal/infra/repository"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
 	"github.com/google/wire"
 )
 
 var setRepositoryDependency = wire.NewSet(
-	database.NewUserRepository,
-	wire.Bind(new(gateway.UserGateway), new(*database.UserRepository)),
+	repository.NewUserRepository,
+	wire.Bind(new(gateway.UserGateway), new(*repository.UserRepository)),
 )
 
 func InitializeUserVerifier(db *sql.DB) *user_verifier.UserVerifier {
@@ -22,4 +23,12 @@ func InitializeUserVerifier(db *sql.DB) *user_verifier.UserVerifier {
 		user_verifier.NewUserVerifier,
 	)
 	return &user_verifier.UserVerifier{}
+}
+
+func InitializeUserHandler(db *sql.DB) *handlers.UserHandler {
+	wire.Build(
+		setRepositoryDependency,
+		handlers.NewUserHandler,
+	)
+	return &handlers.UserHandler{}
 }

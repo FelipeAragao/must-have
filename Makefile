@@ -1,12 +1,23 @@
 createmigration:
-	migrate create -ext=sql -dir=migrations -seq init
+	migrate create -ext=sql -dir=sql/migrations -seq init
 
 migrate:
-	migrate -path=migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose up
+	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose up
 
 migratedown:
-	migrate -path=migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose down
+	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose down
 
 wire:
 	wire ./...
-.PHONY: migrate migratedown createmigration wire
+
+sqlc:
+	sqlc generate
+
+migrate-sqlc:
+	migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/must-have" -verbose up
+	sqlc generate
+
+swagger:
+	swag init -g cmd/server/main.go
+
+.PHONY: migrate migratedown createmigration wire sqlc migrate-sqlc
