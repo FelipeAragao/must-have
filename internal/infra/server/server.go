@@ -37,14 +37,34 @@ func (s *Server) Start() chi.Router {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
+	routerOauth(s)
+	routerUser(s)
+
+	return s.Router
+}
+
+func routerUser(s *Server) {
+	s.Router.Route("/api/v1/users", func(r chi.Router) {
+		r.Post("", InitializeUserHandler(s.DB).CreateUser)
+
+		r.Route("/{userID}", func(r chi.Router) {
+			r.Use(oauth.Authorize(s.JWTSecret, nil))
+			r.Put("/password", InitializeUserHandler(s.DB).ChangePassword)
+			r.Put("", InitializeUserHandler(s.DB).UpdateUser)
+			r.Get("", InitializeUserHandler(s.DB).GetUserById)
+		})
+	})
+}
+
+func routerOauth(s *Server) {
 	oauthServer := oauth.NewBearerServer(
 		s.JWTSecret,
 		time.Second*time.Duration(s.JWTExperesIn),
 		InitializeUserVerifier(s.DB),
 		nil)
 
-	s.Router.Post("/api/v1/authenticate/sso", oauthServer.UserCredentials)
-	s.Router.Post("/api/v1/authenticate", oauthServer.ClientCredentials)
-
-	return s.Router
+	s.Router.Route("/api/v1/authenticate", func(r chi.Router) {
+		r.Post("/sso", oauthServer.UserCredentials)
+		r.Post("/", oauthServer.ClientCredentials)
+	})
 }

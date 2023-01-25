@@ -28,10 +28,6 @@ type UserOutputDTO struct {
 	UpdatedAt time.Time
 }
 
-type FindByIdUserUseCaseInterface interface {
-	Execute(input *UserInputDTO) (*UserOutputDTO, error)
-}
-
 type FindByIdUserUseCase struct {
 	UserGateway gateway.UserGateway
 }
