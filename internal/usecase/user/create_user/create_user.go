@@ -55,7 +55,7 @@ func NewCreateUserUseCase(userGateway gateway.UserGateway) *CreateUserUseCase {
 
 func (uc *CreateUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error) {
 
-	user, err := entity.NewUser(input.Name, input.Email, input.Login, input.Password, entity.Location{
+	user, err := entity.NewUser(input.Name, input.Email, input.Login, input.Password, entity.LocationUser{
 		Lat:     input.Location.Lat,
 		Lng:     input.Location.Lng,
 		Address: input.Location.Address,

@@ -11,24 +11,24 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "type": "ENUM (1 – Venda, 2 – Troca, 3 – Desejo)",
-  "value": 1.0,
-  "description": "",
+  "type": 2,
+  "value": 1776.45,
+  "description": "Aliquip mollit aute aliqua ut. In nisi non est voluptate anim consequat veniam quis. Nostrud ullamco esse nostrud dolor elit eu esse nulla incididunt magna. Laboris eu quis laborum nostrud esse et consectetur exercitation. Duis minim irure proident sint occaecat cillum officia deserunt.\r\n",
   "trade_for": "",
   "location": {
-    "lat": 1.0,
-    "lng": 1.0,
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip_code": 1
+    "lat": -67.868968,
+    "lng": -12.943469,
+    "address": "460 Hamilton Avenue, Oberlin, Michigan, 2608",
+    "city": "Eastvale",
+    "state": "Indiana",
+    "zip_code": 171947677
   },
   "urgency": {
-    "type": "ENUM (1 – Baixa, 2 – Média, 3 – Alta, 4 – Data)",
-    "limit_date": "2022-02-23"
+    "type": 1,
+    "limit_date": "2021-05-31"
   },
   "photos": [
-    ""
+    "http://placehold.it/32x32"
   ]
 }
 
@@ -47,24 +47,24 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "type": "ENUM (1 – Venda, 2 – Troca, 3 – Desejo)",
-  "value": 1.0,
-  "description": "",
+  "type": 2,
+  "value": 1776.45,
+  "description": "Aliquip mollit aute aliqua ut. In nisi non est voluptate anim consequat veniam quis. Nostrud ullamco esse nostrud dolor elit eu esse nulla incididunt magna. Laboris eu quis laborum nostrud esse et consectetur exercitation. Duis minim irure proident sint occaecat cillum officia deserunt.\r\n",
   "trade_for": "",
   "location": {
-    "lat": 1.0,
-    "lng": 1.0,
-    "address": "",
-    "city": "",
-    "state": "",
-    "zip_code": 1
+    "lat": -67.868968,
+    "lng": -12.943469,
+    "address": "460 Hamilton Avenue, Oberlin, Michigan, 2608",
+    "city": "Eastvale",
+    "state": "Indiana",
+    "zip_code": 171947677
   },
   "urgency": {
-    "type": "ENUM (1 – Baixa, 2 – Média, 3 – Alta, 4 – Data)",
-    "limit_date": "2022-02-23"
+    "type": 1,
+    "limit_date": "2021-05-31"
   },
   "photos": [
-    ""
+    "http://placehold.it/32x32"
   ]
 }
 

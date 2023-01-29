@@ -1,6 +1,7 @@
 package find_by_id_user
 
 import (
+	"context"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/FelipeAragao/must-have/pkg/validate"
 	"time"
@@ -28,6 +29,7 @@ type UserOutputDTO struct {
 }
 
 type FindByIdUserUseCase struct {
+	ctx         context.Context
 	UserGateway gateway.UserGateway
 }
 
