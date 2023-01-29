@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/change_password"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/create_user"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id_user"
@@ -16,11 +15,14 @@ type Error struct {
 }
 
 type UserHandler struct {
-	UserGateway gateway.UserGateway
+	ucCreateUser     create_user.CreateUserUseCaseInterface
+	ucFindByID       find_by_id_user.FindByIDUseCaseInterface
+	ucUpdate         update_user.UpdateUserUseCaseInterface
+	ucChangePassword change_password.ChangePasswordUseCaseInterface
 }
 
-func NewUserHandler(userGateway gateway.UserGateway) *UserHandler {
-	return &UserHandler{UserGateway: userGateway}
+func NewUserHandler(ucCreateUser create_user.CreateUserUseCaseInterface, ucFindByID find_by_id_user.FindByIDUseCaseInterface, ucUpdate update_user.UpdateUserUseCaseInterface, ucChangePassword change_password.ChangePasswordUseCaseInterface) *UserHandler {
+	return &UserHandler{ucCreateUser: ucCreateUser, ucFindByID: ucFindByID, ucUpdate: ucUpdate, ucChangePassword: ucChangePassword}
 }
 
 // CreateUser godoc
@@ -41,8 +43,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := create_user.NewCreateUserUseCase(h.UserGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucCreateUser.Execute(&dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -86,8 +87,7 @@ func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := update_user.NewUpdateUserUseCase(h.UserGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucUpdate.Execute(&dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -129,8 +129,7 @@ func (h *UserHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	var dto find_by_id_user.UserInputDTO
 	dto.ID = id
 
-	usecase := find_by_id_user.NewFindByIdUserUseCase(h.UserGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucFindByID.Execute(&dto)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -175,8 +174,7 @@ func (h *UserHandler) ChangePassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := change_password.NewChangePasswordUserUseCase(h.UserGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucChangePassword.Execute(&dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

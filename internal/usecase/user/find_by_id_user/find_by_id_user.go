@@ -1,7 +1,8 @@
+//go:generate mockery --name=FindByIDUseCaseInterface --filename=find_by_id_mock.go --output=../../../../test/mock/usecase --outpkg=mocks
+
 package find_by_id_user
 
 import (
-	"context"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/FelipeAragao/must-have/pkg/validate"
 	"time"
@@ -28,18 +29,21 @@ type UserOutputDTO struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-type FindByIdUserUseCase struct {
-	ctx         context.Context
+type FindByIDUseCaseInterface interface {
+	Execute(input *UserInputDTO) (*UserOutputDTO, error)
+}
+
+type FindByIDUseCase struct {
 	UserGateway gateway.UserGateway
 }
 
-func NewFindByIdUserUseCase(userGateway gateway.UserGateway) *FindByIdUserUseCase {
-	return &FindByIdUserUseCase{
+func NewFindByIDUseCase(userGateway gateway.UserGateway) *FindByIDUseCase {
+	return &FindByIDUseCase{
 		UserGateway: userGateway,
 	}
 }
 
-func (uc *FindByIdUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error) {
+func (uc *FindByIDUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error) {
 
 	if input == nil || input.ID == "" {
 		return nil, validate.ErrorMessage("id", "id is required")

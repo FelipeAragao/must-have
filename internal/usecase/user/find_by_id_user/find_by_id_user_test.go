@@ -34,7 +34,7 @@ func TestCreateUserUseCase_Execute(t *testing.T) {
 		},
 	}, nil)
 
-	uc := NewFindByIdUserUseCase(m)
+	uc := NewFindByIDUseCase(m)
 
 	input := &UserInputDTO{
 		ID: id.String(),

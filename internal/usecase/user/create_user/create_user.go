@@ -1,3 +1,5 @@
+//go:generate mockery --name=CreateUserUseCaseInterface --filename=create_user_usecase_mock.go --output=../../../../test/mock/usecase --outpkg=mocks
+
 package create_user
 
 import (

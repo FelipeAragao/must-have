@@ -2,6 +2,7 @@ package server
 
 import (
 	"database/sql"
+	"github.com/FelipeAragao/must-have/internal/infra/server/wire"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
@@ -44,14 +45,15 @@ func (s *Server) Start() chi.Router {
 }
 
 func routerUser(s *Server) {
+
 	s.Router.Route("/api/v1/users", func(r chi.Router) {
-		r.Post("/", InitializeUserHandler(s.DB).CreateUser)
+		r.Post("/", wire.InitializeUserHandler(s.DB).CreateUser)
 
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(oauth.Authorize(s.JWTSecret, nil))
-			r.Put("/change-password", InitializeUserHandler(s.DB).ChangePassword)
-			r.Put("/", InitializeUserHandler(s.DB).UpdateUser)
-			r.Get("/", InitializeUserHandler(s.DB).GetUserById)
+			r.Put("/change-password", wire.InitializeUserHandler(s.DB).ChangePassword)
+			r.Put("/", wire.InitializeUserHandler(s.DB).UpdateUser)
+			r.Get("/", wire.InitializeUserHandler(s.DB).GetUserById)
 		})
 	})
 }
@@ -60,11 +62,11 @@ func routerOauth(s *Server) {
 	oauthServer := oauth.NewBearerServer(
 		s.JWTSecret,
 		time.Second*time.Duration(s.JWTExperesIn),
-		InitializeUserVerifier(s.DB),
+		wire.InitializeUserVerifier(s.DB),
 		nil)
 
 	s.Router.Route("/api/v1/authenticate", func(r chi.Router) {
-		r.Post("/sso", InitializeAuthHandler(oauthServer).ClientCredentials)
-		r.Post("/", InitializeAuthHandler(oauthServer).UserCredentials)
+		r.Post("/sso", wire.InitializeAuthHandler(oauthServer).ClientCredentials)
+		r.Post("/", wire.InitializeAuthHandler(oauthServer).UserCredentials)
 	})
 }
