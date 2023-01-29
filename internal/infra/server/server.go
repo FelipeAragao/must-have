@@ -64,7 +64,7 @@ func routerOauth(s *Server) {
 		nil)
 
 	s.Router.Route("/api/v1/authenticate", func(r chi.Router) {
-		r.Post("/sso", oauthServer.ClientCredentials)
-		r.Post("/", oauthServer.UserCredentials)
+		r.Post("/sso", InitializeAuthHandler(oauthServer).ClientCredentials)
+		r.Post("/", InitializeAuthHandler(oauthServer).UserCredentials)
 	})
 }

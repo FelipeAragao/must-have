@@ -9,17 +9,23 @@ import (
 	"github.com/FelipeAragao/must-have/internal/infra/handlers"
 	"github.com/FelipeAragao/must-have/internal/infra/repository"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
+	"github.com/go-chi/oauth"
 	"github.com/google/wire"
 )
 
-var setRepositoryDependency = wire.NewSet(
+var setUserRepositoryDependency = wire.NewSet(
 	repository.NewUserRepository,
 	wire.Bind(new(gateway.UserGateway), new(*repository.UserRepository)),
 )
 
+//var setVerifierRepositoryDependency = wire.NewSet(
+//	repository.NewUserRepository,
+//	wire.Bind(new(gateway.UserGateway), new(*repository.UserRepository)),
+//)
+
 func InitializeUserVerifier(db *sql.DB) *user_verifier.UserVerifier {
 	wire.Build(
-		setRepositoryDependency,
+		setUserRepositoryDependency,
 		user_verifier.NewUserVerifier,
 	)
 	return &user_verifier.UserVerifier{}
@@ -27,8 +33,15 @@ func InitializeUserVerifier(db *sql.DB) *user_verifier.UserVerifier {
 
 func InitializeUserHandler(db *sql.DB) *handlers.UserHandler {
 	wire.Build(
-		setRepositoryDependency,
+		setUserRepositoryDependency,
 		handlers.NewUserHandler,
 	)
 	return &handlers.UserHandler{}
+}
+
+func InitializeAuthHandler(oauth *oauth.BearerServer) *handlers.AuthHandler {
+	wire.Build(
+		handlers.NewAuthHandler,
+	)
+	return &handlers.AuthHandler{}
 }
