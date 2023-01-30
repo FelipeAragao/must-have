@@ -28,7 +28,7 @@ func TestCreateUserUseCase_Execute(t *testing.T) {
 		Password:  string(hash),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-		Location: entity.Location{
+		Location: entity.LocationUser{
 			Lat:     -23.5506507,
 			Lng:     -46.6333824,
 			Address: "Rua Vergueiro, 3185",

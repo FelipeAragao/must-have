@@ -40,7 +40,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/create_user.UserInputDTO"
+                            "$ref": "#/definitions/create_deal.UserInputDTO"
                         }
                     }
                 ],
@@ -135,7 +135,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/update_user.UserInputDTO"
+                            "$ref": "#/definitions/update_deal.UserInputDTO"
                         }
                     }
                 ],
@@ -224,7 +224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "create_user.UserInputDTO": {
+        "create_deal.UserInputDTO": {
             "type": "object",
             "properties": {
                 "email": {
@@ -347,7 +347,7 @@ const docTemplate = `{
                 }
             }
         },
-        "update_user.UserInputDTO": {
+        "update_deal.UserInputDTO": {
             "type": "object",
             "properties": {
                 "email": {

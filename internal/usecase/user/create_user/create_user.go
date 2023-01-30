@@ -1,3 +1,5 @@
+//go:generate mockery --name=CreateUserUseCaseInterface --filename=create_user_usecase_mock.go --output=../../../../test/mock/usecase --outpkg=mocks
+
 package create_user
 
 import (
@@ -55,7 +57,7 @@ func NewCreateUserUseCase(userGateway gateway.UserGateway) *CreateUserUseCase {
 
 func (uc *CreateUserUseCase) Execute(input *UserInputDTO) (*UserOutputDTO, error) {
 
-	user, err := entity.NewUser(input.Name, input.Email, input.Login, input.Password, entity.Location{
+	user, err := entity.NewUser(input.Name, input.Email, input.Login, input.Password, entity.LocationUser{
 		Lat:     input.Location.Lat,
 		Lng:     input.Location.Lng,
 		Address: input.Location.Address,

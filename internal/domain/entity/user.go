@@ -8,17 +8,17 @@ import (
 )
 
 type User struct {
-	ID        entity.ID `json:"id"`
-	Name      string    `json:"name" validate:"required,min=3,max=100"`
-	Email     string    `json:"email" validate:"required,email"`
-	Login     string    `json:"login" validate:"required,min=3,max=50"`
-	Password  string    `json:"-" validate:"required"`
-	Location  Location  `json:"location" validate:"required,dive"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        entity.ID    `json:"id"`
+	Name      string       `json:"name" validate:"required,min=3,max=100"`
+	Email     string       `json:"email" validate:"required,email"`
+	Login     string       `json:"login" validate:"required,min=3,max=50"`
+	Password  string       `json:"-" validate:"required"`
+	Location  LocationUser `json:"location" validate:"required,dive"`
+	CreatedAt time.Time    `json:"created_at"`
+	UpdatedAt time.Time    `json:"updated_at"`
 }
 
-type Location struct {
+type LocationUser struct {
 	Lat     float64 `json:"lat" validate:"required,latitude"`
 	Lng     float64 `json:"lng" validate:"required,longitude"`
 	Address string  `json:"address" validate:"required,min=3,max=100"`
@@ -27,7 +27,7 @@ type Location struct {
 	ZipCode int     `json:"zip_code" validate:"required,gte=10000000,lte=99999999"`
 }
 
-func NewUser(name string, email string, login string, password string, location Location) (*User, error) {
+func NewUser(name string, email string, login string, password string, location LocationUser) (*User, error) {
 
 	hash, err := generatePassword(password)
 	if err != nil {

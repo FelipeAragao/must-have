@@ -1,3 +1,4 @@
+//go:generate mockery --name=UpdateUserUseCaseInterface --filename=update_user_id_mock.go --output=../../../../test/mock/usecase --outpkg=mocks
 package update_user
 
 import (

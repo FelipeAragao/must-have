@@ -2,7 +2,9 @@
 
 package gateway
 
-import "github.com/FelipeAragao/must-have/internal/domain/entity"
+import (
+	"github.com/FelipeAragao/must-have/internal/domain/entity"
+)
 
 type UserGateway interface {
 	Create(user *entity.User) error

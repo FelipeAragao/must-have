@@ -9,6 +9,26 @@ import (
 	"time"
 )
 
+type Deal struct {
+	ID               string
+	UserID           string
+	Type             sql.NullInt32
+	Value            sql.NullString
+	Description      sql.NullString
+	TradeFor         sql.NullString
+	LocationLat      sql.NullFloat64
+	LocationLng      sql.NullFloat64
+	LocationAddress  string
+	LocationCity     string
+	LocationState    string
+	LocationZipCode  int64
+	UrgencyType      int32
+	UrgencyLimitDate time.Time
+	Photos           sql.NullString
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+}
+
 type User struct {
 	ID              string
 	Name            string

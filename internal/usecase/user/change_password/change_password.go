@@ -16,7 +16,7 @@ type UserOutputDTO struct {
 	UpdatedAt time.Time
 }
 
-type ChangePasswordUserUseCaseInterface interface {
+type ChangePasswordUseCaseInterface interface {
 	Execute(input *UserInputDTO) (*UserOutputDTO, error)
 }
 

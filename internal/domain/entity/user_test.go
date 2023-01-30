@@ -1,8 +1,6 @@
 package entity
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -14,7 +12,7 @@ func TestNewUser(t *testing.T) {
 	login := "john.doe"
 	password := "12345678"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = -23.5506507
 	location.Lng = -46.6333824
 	location.Address = "Rua Vergueiro, 3185"
@@ -23,10 +21,6 @@ func TestNewUser(t *testing.T) {
 	location.ZipCode = 65000000
 
 	user, err := NewUser(name, email, login, password, location)
-
-	b, _ := json.Marshal(user)
-	fmt.Println(string(b))
-	// TODO: remover código comentado
 
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
@@ -47,7 +41,7 @@ func TestNewUserWithErrors(t *testing.T) {
 	login := ""
 	password := "123"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = 0.0
 	location.Lng = 0.0
 	location.Address = ""
@@ -69,7 +63,7 @@ func TestUser_Modify(t *testing.T) {
 	login := "john.doe"
 	password := "12345678"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = -23.5506507
 	location.Lng = -46.6333824
 	location.Address = "Rua Vergueiro, 3185"
@@ -100,7 +94,7 @@ func TestUser_ModifyWithErrors(t *testing.T) {
 	login := "john.doe"
 	password := "12345678"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = -23.5506507
 	location.Lng = -46.6333824
 	location.Address = "Rua Vergueiro, 3185"
@@ -132,7 +126,7 @@ func TestUser_ChangePassword(t *testing.T) {
 	login := "john.doe"
 	password := "12345678"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = -23.5506507
 	location.Lng = -46.6333824
 	location.Address = "Rua Vergueiro, 3185"
@@ -155,7 +149,7 @@ func TestUser_ValidatePassword(t *testing.T) {
 	login := "john.doe"
 	password := "12345678"
 
-	location := Location{}
+	location := LocationUser{}
 	location.Lat = -23.5506507
 	location.Lng = -46.6333824
 	location.Address = "Rua Vergueiro, 3185"

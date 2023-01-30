@@ -86,7 +86,7 @@ func (r *UserRepository) FindByID(id string) (*entity.User, error) {
 		Password:  user.Password,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
-		Location: entity.Location{
+		Location: entity.LocationUser{
 			Lat:     user.LocationLat.Float64,
 			Lng:     user.LocationLng.Float64,
 			Address: user.LocationAddress,
@@ -116,7 +116,7 @@ func (r *UserRepository) FindByEmail(email string) (*entity.User, error) {
 		Password:  user.Password,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
-		Location: entity.Location{
+		Location: entity.LocationUser{
 			Lat:     user.LocationLat.Float64,
 			Lng:     user.LocationLng.Float64,
 			Address: user.LocationAddress,
@@ -146,7 +146,7 @@ func (r *UserRepository) FindByLogin(login string) (*entity.User, error) {
 		Password:  user.Password,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
-		Location: entity.Location{
+		Location: entity.LocationUser{
 			Lat:     user.LocationLat.Float64,
 			Lng:     user.LocationLng.Float64,
 			Address: user.LocationAddress,
