@@ -13,7 +13,7 @@ import (
 	"github.com/FelipeAragao/must-have/internal/infra/repository"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/change_password"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/create_user"
-	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id_user"
+	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/update_user"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
 	"github.com/go-chi/oauth"
@@ -39,7 +39,7 @@ func InitializeAuthHandler(oauth2 *oauth.BearerServer) *handlers.AuthHandler {
 func InitializeUserHandler(db *sql.DB) *handlers.UserHandler {
 	userRepository := repository.NewUserRepository(db)
 	createUserUseCase := create_user.NewCreateUserUseCase(userRepository)
-	findByIDUseCase := find_by_id_user.NewFindByIDUseCase(userRepository)
+	findByIDUseCase := find_by_id.NewFindByIDUseCase(userRepository)
 	updateUserUseCase := update_user.NewUpdateUserUseCase(userRepository)
 	changePasswordUserUseCase := change_password.NewChangePasswordUserUseCase(userRepository)
 	userHandler := handlers.NewUserHandler(createUserUseCase, findByIDUseCase, updateUserUseCase, changePasswordUserUseCase)
@@ -56,6 +56,6 @@ var setCreateUseCaseDependency = wire.NewSet(create_user.NewCreateUserUseCase, w
 
 var setUpdateUseCaseDependency = wire.NewSet(update_user.NewUpdateUserUseCase, wire.Bind(new(update_user.UpdateUserUseCaseInterface), new(*update_user.UpdateUserUseCase)))
 
-var setFindByIDUseCaseDependency = wire.NewSet(find_by_id_user.NewFindByIDUseCase, wire.Bind(new(find_by_id_user.FindByIDUseCaseInterface), new(*find_by_id_user.FindByIDUseCase)))
+var setFindByIDUseCaseDependency = wire.NewSet(find_by_id.NewFindByIDUseCase, wire.Bind(new(find_by_id.FindByIDUseCaseInterface), new(*find_by_id.FindByIDUseCase)))
 
 var setChangePasswordUseCaseDependency = wire.NewSet(change_password.NewChangePasswordUserUseCase, wire.Bind(new(change_password.ChangePasswordUseCaseInterface), new(*change_password.ChangePasswordUserUseCase)))

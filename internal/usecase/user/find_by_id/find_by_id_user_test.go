@@ -1,4 +1,4 @@
-package find_by_id_user
+package find_by_id
 
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/entity"

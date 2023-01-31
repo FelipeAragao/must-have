@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	find_by_id_user "github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id_user"
+	find_by_id_user "github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
 	mock "github.com/stretchr/testify/mock"
 )
 

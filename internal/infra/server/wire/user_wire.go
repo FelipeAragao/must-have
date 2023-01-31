@@ -10,7 +10,7 @@ import (
 	"github.com/FelipeAragao/must-have/internal/infra/repository"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/change_password"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/create_user"
-	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id_user"
+	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/update_user"
 	"github.com/google/wire"
 )
@@ -32,8 +32,8 @@ var setUpdateUseCaseDependency = wire.NewSet(
 )
 
 var setFindByIDUseCaseDependency = wire.NewSet(
-	find_by_id_user.NewFindByIDUseCase,
-	wire.Bind(new(find_by_id_user.FindByIDUseCaseInterface), new(*find_by_id_user.FindByIDUseCase)),
+	find_by_id.NewFindByIDUseCase,
+	wire.Bind(new(find_by_id.FindByIDUseCaseInterface), new(*find_by_id.FindByIDUseCase)),
 )
 
 var setChangePasswordUseCaseDependency = wire.NewSet(

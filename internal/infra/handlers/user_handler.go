@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/change_password"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/create_user"
-	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id_user"
+	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/update_user"
 	"github.com/go-chi/chi/v5"
 	"net/http"
@@ -16,12 +16,12 @@ type Error struct {
 
 type UserHandler struct {
 	ucCreateUser     create_user.CreateUserUseCaseInterface
-	ucFindByID       find_by_id_user.FindByIDUseCaseInterface
+	ucFindByID       find_by_id.FindByIDUseCaseInterface
 	ucUpdate         update_user.UpdateUserUseCaseInterface
 	ucChangePassword change_password.ChangePasswordUseCaseInterface
 }
 
-func NewUserHandler(ucCreateUser create_user.CreateUserUseCaseInterface, ucFindByID find_by_id_user.FindByIDUseCaseInterface, ucUpdate update_user.UpdateUserUseCaseInterface, ucChangePassword change_password.ChangePasswordUseCaseInterface) *UserHandler {
+func NewUserHandler(ucCreateUser create_user.CreateUserUseCaseInterface, ucFindByID find_by_id.FindByIDUseCaseInterface, ucUpdate update_user.UpdateUserUseCaseInterface, ucChangePassword change_password.ChangePasswordUseCaseInterface) *UserHandler {
 	return &UserHandler{ucCreateUser: ucCreateUser, ucFindByID: ucFindByID, ucUpdate: ucUpdate, ucChangePassword: ucChangePassword}
 }
 
@@ -126,7 +126,7 @@ func (h *UserHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	//s := ctx.Value(oauth.ClaimsContext).(map[string]string)
 	//fmt.Sprintf(s["id"])
 
-	var dto find_by_id_user.UserInputDTO
+	var dto find_by_id.UserInputDTO
 	dto.ID = id
 
 	output, err := h.ucFindByID.Execute(&dto)

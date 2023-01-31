@@ -1,6 +1,6 @@
 //go:generate mockery --name=FindByIDUseCaseInterface --filename=find_by_id_mock.go --output=../../../../test/mock/usecase --outpkg=mocks
 
-package find_by_id_user
+package find_by_id
 
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
