@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/FelipeAragao/must-have/configs"
+	"github.com/FelipeAragao/must-have/docs"
 	_ "github.com/FelipeAragao/must-have/docs"
 	"github.com/FelipeAragao/must-have/internal/infra/server"
 	_ "github.com/go-sql-driver/mysql"
@@ -11,16 +12,11 @@ import (
 	"net/http"
 )
 
-// @title           Must Have API
-// @version         1.0
-// @description     Must Have API with auhtentication
-// @termsOfService  http://swagger.io/terms/
-
 // @contact.name   Felipe Aragão
-// @contact.email  felipe.thiago10@gmail.com
+// @contact.email  felpe.thiago10@gmail.com
 
-// @host      localhost:3000
-// @BasePath  /api/v1
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
@@ -36,13 +32,20 @@ func main() {
 	}
 	defer db.Close()
 
+	// programmatically set swagger info
+	docs.SwaggerInfo.Title = "Must Have API"
+	docs.SwaggerInfo.Description = "This is a sample server Must Have server."
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:3000"
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+
 	s := server.NewServer(
 		db,
 		configs.JWTSecret,
 		configs.JwtExperesIn,
 	)
 	r := s.Start()
-
 	r.Get("/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL("http://localhost:3000/swagger/doc.json"), //TODO: change to env
 	))

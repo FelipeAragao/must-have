@@ -13,7 +13,7 @@ type Deal struct {
 	ID               string
 	UserID           string
 	Type             sql.NullInt32
-	Value            sql.NullString
+	Value            float64
 	Description      sql.NullString
 	TradeFor         sql.NullString
 	LocationLat      sql.NullFloat64

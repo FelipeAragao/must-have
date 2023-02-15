@@ -1,6 +1,7 @@
 package create_deal
 
 import (
+	"context"
 	"github.com/FelipeAragao/must-have/internal/domain/entity"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"time"
@@ -51,7 +52,7 @@ type DealOutputDTO struct {
 }
 
 type CreateDealUseCaseInterface interface {
-	Execute(input *DealInputDTO) (*DealOutputDTO, error)
+	Execute(context context.Context, input *DealInputDTO) (*DealOutputDTO, error)
 }
 
 type CreateDealDealCase struct {
@@ -66,7 +67,7 @@ func NewCreateDealUseCase(dealGateway gateway.DealGateway, userGateway gateway.U
 	}
 }
 
-func (uc *CreateDealDealCase) Execute(input *DealInputDTO) (*DealOutputDTO, error) {
+func (uc *CreateDealDealCase) Execute(ctx context.Context, input *DealInputDTO) (*DealOutputDTO, error) {
 
 	user, err := uc.UserGateway.FindByID(input.UserID)
 	if err != nil {
@@ -98,7 +99,7 @@ func (uc *CreateDealDealCase) Execute(input *DealInputDTO) (*DealOutputDTO, erro
 		return nil, err
 	}
 
-	err = uc.DealGateway.Create(deal)
+	err = uc.DealGateway.Create(ctx, deal)
 	if err != nil {
 		return nil, err
 	}

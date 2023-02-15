@@ -1,6 +1,7 @@
-package find_by_id_deal
+package find_by_id
 
 import (
+	"context"
 	"errors"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"time"
@@ -33,21 +34,25 @@ type DealOutputDTO struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-type FindByIdUseCase struct {
+type FindByIDUseCaseInterface interface {
+	Execute(context context.Context, input *DealInputDTO) (*DealOutputDTO, error)
+}
+
+type FindByIDUseCase struct {
 	gateway.DealGateway
 }
 
-func NewFindByIdUseCase(dealGateway gateway.DealGateway) *FindByIdUseCase {
-	return &FindByIdUseCase{DealGateway: dealGateway}
+func NewFindByIdUseCase(dealGateway gateway.DealGateway) *FindByIDUseCase {
+	return &FindByIDUseCase{DealGateway: dealGateway}
 }
 
-func (uc *FindByIdUseCase) Execute(input *DealInputDTO) (*DealOutputDTO, error) {
+func (uc *FindByIDUseCase) Execute(ctx context.Context, input *DealInputDTO) (*DealOutputDTO, error) {
 
 	if input == nil || input.ID == "" {
 		return nil, errors.New("id is required")
 	}
 
-	deal, err := uc.FindByID(input.ID)
+	deal, err := uc.FindByID(ctx, input.ID)
 	if err != nil {
 		return nil, err
 	}

@@ -46,14 +46,16 @@ func (s *Server) Start() chi.Router {
 
 func routerUser(s *Server) {
 
+	handler := wire.InitializeUserHandler(s.DB)
+
 	s.Router.Route("/api/v1/users", func(r chi.Router) {
-		r.Post("/", wire.InitializeUserHandler(s.DB).CreateUser)
+		r.Post("/", handler.CreateUser)
 
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(oauth.Authorize(s.JWTSecret, nil))
-			r.Put("/change-password", wire.InitializeUserHandler(s.DB).ChangePassword)
-			r.Put("/", wire.InitializeUserHandler(s.DB).UpdateUser)
-			r.Get("/", wire.InitializeUserHandler(s.DB).GetUserById)
+			r.Put("/change-password", handler.ChangePassword)
+			r.Put("/", handler.UpdateUser)
+			r.Get("/", handler.GetUserById)
 		})
 	})
 }

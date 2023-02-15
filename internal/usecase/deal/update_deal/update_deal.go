@@ -1,6 +1,7 @@
 package update_deal
 
 import (
+	"context"
 	"errors"
 	"github.com/FelipeAragao/must-have/internal/domain/entity"
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
@@ -53,7 +54,7 @@ type DealOutputDTO struct {
 }
 
 type UpdateDealUseCaseInterface interface {
-	Execute(input *DealInputDTO) (*DealOutputDTO, error)
+	Execute(context context.Context, input *DealInputDTO) (*DealOutputDTO, error)
 }
 
 type UpdateDealDealCase struct {
@@ -66,9 +67,9 @@ func NewUpdateDealUseCase(dealGateway gateway.DealGateway) *UpdateDealDealCase {
 	}
 }
 
-func (uc *UpdateDealDealCase) Execute(input *DealInputDTO) (*DealOutputDTO, error) {
+func (uc *UpdateDealDealCase) Execute(ctx context.Context, input *DealInputDTO) (*DealOutputDTO, error) {
 
-	deal, err := uc.DealGateway.FindByID(input.ID)
+	deal, err := uc.DealGateway.FindByID(ctx, input.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +101,7 @@ func (uc *UpdateDealDealCase) Execute(input *DealInputDTO) (*DealOutputDTO, erro
 		return nil, err
 	}
 
-	err = uc.DealGateway.Update(deal)
+	err = uc.DealGateway.Update(ctx, deal)
 	if err != nil {
 		return nil, err
 	}

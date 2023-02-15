@@ -10,16 +10,154 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "Felipe Aragão",
-            "email": "felipe.thiago10@gmail.com"
+            "email": "felpe.thiago10@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/deals": {
+            "post": {
+                "description": "Create deal",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deals"
+                ],
+                "summary": "Create deal",
+                "parameters": [
+                    {
+                        "description": "deal request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/create_deal.DealInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/deals/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get a deal",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deals"
+                ],
+                "summary": "Get a deal",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "deal ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Deal"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Update a deal",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deals"
+                ],
+                "summary": "Update a deal",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "deal ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "deal request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/update_deal.DealInputDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "Create user",
@@ -40,7 +178,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/create_deal.UserInputDTO"
+                            "$ref": "#/definitions/create_user.UserInputDTO"
                         }
                     }
                 ],
@@ -135,7 +273,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/update_deal.UserInputDTO"
+                            "$ref": "#/definitions/create_user.UserInputDTO"
                         }
                     }
                 ],
@@ -224,7 +362,67 @@ const docTemplate = `{
                 }
             }
         },
-        "create_deal.UserInputDTO": {
+        "create_deal.DealInputDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "address": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "lat": {
+                            "type": "number"
+                        },
+                        "lng": {
+                            "type": "number"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "zip_code": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "photos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "trade_for": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "urgency": {
+                    "type": "object",
+                    "properties": {
+                        "limit_date": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                }
+            }
+        },
+        "create_user.UserInputDTO": {
             "type": "object",
             "properties": {
                 "email": {
@@ -264,7 +462,59 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.Location": {
+        "entity.Deal": {
+            "type": "object",
+            "required": [
+                "description",
+                "location",
+                "type",
+                "urgency",
+                "user_id",
+                "value"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "minLength": 3
+                },
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "$ref": "#/definitions/entity.LocationDeal"
+                },
+                "photos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "trade_for": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "urgency": {
+                    "$ref": "#/definitions/entity.Urgency"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number",
+                    "minimum": 0
+                }
+            }
+        },
+        "entity.LocationDeal": {
             "type": "object",
             "required": [
                 "address",
@@ -303,6 +553,59 @@ const docTemplate = `{
                 }
             }
         },
+        "entity.LocationUser": {
+            "type": "object",
+            "required": [
+                "address",
+                "city",
+                "lat",
+                "lng",
+                "state",
+                "zip_code"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 3
+                },
+                "city": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 3
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                },
+                "state": {
+                    "type": "string",
+                    "maxLength": 2,
+                    "minLength": 2
+                },
+                "zip_code": {
+                    "type": "integer",
+                    "maximum": 99999999,
+                    "minimum": 10000000
+                }
+            }
+        },
+        "entity.Urgency": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "limit_date": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                }
+            }
+        },
         "entity.User": {
             "type": "object",
             "required": [
@@ -322,7 +625,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "location": {
-                    "$ref": "#/definitions/entity.Location"
+                    "$ref": "#/definitions/entity.LocationUser"
                 },
                 "login": {
                     "type": "string",
@@ -347,10 +650,10 @@ const docTemplate = `{
                 }
             }
         },
-        "update_deal.UserInputDTO": {
+        "update_deal.DealInputDTO": {
             "type": "object",
             "properties": {
-                "email": {
+                "description": {
                     "type": "string"
                 },
                 "id": {
@@ -379,11 +682,34 @@ const docTemplate = `{
                         }
                     }
                 },
-                "login": {
+                "photos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "trade_for": {
                     "type": "string"
                 },
-                "name": {
+                "type": {
+                    "type": "integer"
+                },
+                "urgency": {
+                    "type": "object",
+                    "properties": {
+                        "limit_date": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "user_id": {
                     "type": "string"
+                },
+                "value": {
+                    "type": "number"
                 }
             }
         }
@@ -399,12 +725,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:3000",
-	BasePath:         "/api/v1",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Must Have API",
-	Description:      "Must Have API with auhtentication",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

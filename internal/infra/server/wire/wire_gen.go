@@ -11,9 +11,12 @@ import (
 	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/FelipeAragao/must-have/internal/infra/handlers"
 	"github.com/FelipeAragao/must-have/internal/infra/repository"
+	"github.com/FelipeAragao/must-have/internal/usecase/deal/create_deal"
+	"github.com/FelipeAragao/must-have/internal/usecase/deal/find_by_id"
+	"github.com/FelipeAragao/must-have/internal/usecase/deal/update_deal"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/change_password"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/create_user"
-	"github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
+	find_by_id2 "github.com/FelipeAragao/must-have/internal/usecase/user/find_by_id"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/update_user"
 	"github.com/FelipeAragao/must-have/internal/usecase/user/user_verifier"
 	"github.com/go-chi/oauth"
@@ -33,18 +36,43 @@ func InitializeAuthHandler(oauth2 *oauth.BearerServer) *handlers.AuthHandler {
 	return authHandler
 }
 
+// Injectors from deal_wire.go:
+
+// Initialize
+func InitializeDealHandler(db *sql.DB) *handlers.DealHandler {
+	dealRepository := repository.NewDealRepository(db)
+	userRepository := repository.NewUserRepository(db)
+	createDealDealCase := create_deal.NewCreateDealUseCase(dealRepository, userRepository)
+	updateDealDealCase := update_deal.NewUpdateDealUseCase(dealRepository)
+	findByIDUseCase := find_by_id.NewFindByIdUseCase(dealRepository)
+	dealHandler := handlers.NewDealHandler(createDealDealCase, updateDealDealCase, findByIDUseCase)
+	return dealHandler
+}
+
 // Injectors from user_wire.go:
 
 // Initialize
 func InitializeUserHandler(db *sql.DB) *handlers.UserHandler {
 	userRepository := repository.NewUserRepository(db)
 	createUserUseCase := create_user.NewCreateUserUseCase(userRepository)
-	findByIDUseCase := find_by_id.NewFindByIDUseCase(userRepository)
+	findByIDUseCase := find_by_id2.NewFindByIDUseCase(userRepository)
 	updateUserUseCase := update_user.NewUpdateUserUseCase(userRepository)
 	changePasswordUserUseCase := change_password.NewChangePasswordUserUseCase(userRepository)
 	userHandler := handlers.NewUserHandler(createUserUseCase, findByIDUseCase, updateUserUseCase, changePasswordUserUseCase)
 	return userHandler
 }
+
+// deal_wire.go:
+
+// repository
+var setDealRepositoryDependency = wire.NewSet(repository.NewDealRepository, wire.Bind(new(gateway.DealGateway), new(*repository.DealRepository)))
+
+// usecase
+var setCreateDealUseCaseDependency = wire.NewSet(create_deal.NewCreateDealUseCase, wire.Bind(new(create_deal.CreateDealUseCaseInterface), new(*create_deal.CreateDealDealCase)))
+
+var setUpdateDealUseCaseDependency = wire.NewSet(update_deal.NewUpdateDealUseCase, wire.Bind(new(update_deal.UpdateDealUseCaseInterface), new(*update_deal.UpdateDealDealCase)))
+
+var setFindByIDDealUseCaseDependency = wire.NewSet(find_by_id.NewFindByIdUseCase, wire.Bind(new(find_by_id.FindByIDUseCaseInterface), new(*find_by_id.FindByIDUseCase)))
 
 // user_wire.go:
 
@@ -56,6 +84,6 @@ var setCreateUseCaseDependency = wire.NewSet(create_user.NewCreateUserUseCase, w
 
 var setUpdateUseCaseDependency = wire.NewSet(update_user.NewUpdateUserUseCase, wire.Bind(new(update_user.UpdateUserUseCaseInterface), new(*update_user.UpdateUserUseCase)))
 
-var setFindByIDUseCaseDependency = wire.NewSet(find_by_id.NewFindByIDUseCase, wire.Bind(new(find_by_id.FindByIDUseCaseInterface), new(*find_by_id.FindByIDUseCase)))
+var setFindByIDUseCaseDependency = wire.NewSet(find_by_id2.NewFindByIDUseCase, wire.Bind(new(find_by_id2.FindByIDUseCaseInterface), new(*find_by_id2.FindByIDUseCase)))
 
 var setChangePasswordUseCaseDependency = wire.NewSet(change_password.NewChangePasswordUserUseCase, wire.Bind(new(change_password.ChangePasswordUseCaseInterface), new(*change_password.ChangePasswordUserUseCase)))

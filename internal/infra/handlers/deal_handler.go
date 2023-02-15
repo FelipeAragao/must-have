@@ -2,21 +2,21 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/FelipeAragao/must-have/internal/domain/gateway"
 	"github.com/FelipeAragao/must-have/internal/usecase/deal/create_deal"
-	"github.com/FelipeAragao/must-have/internal/usecase/deal/find_by_id_deal"
+	"github.com/FelipeAragao/must-have/internal/usecase/deal/find_by_id"
 	"github.com/FelipeAragao/must-have/internal/usecase/deal/update_deal"
 	"github.com/go-chi/chi/v5"
 	"net/http"
 )
 
 type DealHandler struct {
-	DealGateway gateway.DealGateway
-	UserGateway gateway.UserGateway
+	ucCreateDeal create_deal.CreateDealUseCaseInterface
+	ucUpdateDeal update_deal.UpdateDealUseCaseInterface
+	FindById     find_by_id.FindByIDUseCaseInterface
 }
 
-func NewDealHandler(dealGateway gateway.DealGateway, userGateway gateway.UserGateway) *DealHandler {
-	return &DealHandler{DealGateway: dealGateway, UserGateway: userGateway}
+func NewDealHandler(ucCreateDeal create_deal.CreateDealUseCaseInterface, ucUpdateDeal update_deal.UpdateDealUseCaseInterface, findById find_by_id.FindByIDUseCaseInterface) *DealHandler {
+	return &DealHandler{ucCreateDeal: ucCreateDeal, ucUpdateDeal: ucUpdateDeal, FindById: findById}
 }
 
 // CreateDeal godoc
@@ -37,8 +37,7 @@ func (h *DealHandler) CreateDeal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := create_deal.NewCreateDealUseCase(h.DealGateway, h.UserGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucCreateDeal.Execute(r.Context(), &dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -82,8 +81,7 @@ func (h *DealHandler) UpdateDeal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := update_deal.NewUpdateDealUseCase(h.DealGateway)
-	output, err := usecase.Execute(&dto)
+	output, err := h.ucUpdateDeal.Execute(r.Context(), &dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -118,12 +116,10 @@ func (h *DealHandler) GetDealById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var dto find_by_id_deal.DealInputDTO
+	var dto find_by_id.DealInputDTO
 	dto.ID = id
 
-	usecase := find_by_id_deal.NewFindByIdUseCase(h.DealGateway)
-	output, err := usecase.Execute(&dto)
-
+	output, err := h.FindById.Execute(r.Context(), &dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

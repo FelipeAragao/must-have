@@ -5,7 +5,7 @@ create table deal
     id                 varchar(36)  not null primary key,
     user_id            varchar(36)  not null,
     type               INT,
-    value              decimal(10, 2),
+    value              decimal(10, 2) not null,
     description        VARCHAR(500),
     trade_for          VARCHAR(100),
     location_lat       double       null,

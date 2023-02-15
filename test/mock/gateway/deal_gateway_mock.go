@@ -3,6 +3,8 @@
 package mocks
 
 import (
+	context "context"
+
 	entity "github.com/FelipeAragao/must-have/internal/domain/entity"
 
 	mock "github.com/stretchr/testify/mock"
@@ -13,13 +15,13 @@ type DealGateway struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: user
-func (_m *DealGateway) Create(user *entity.Deal) error {
-	ret := _m.Called(user)
+// Create provides a mock function with given fields: ctx, user
+func (_m *DealGateway) Create(ctx context.Context, user *entity.Deal) error {
+	ret := _m.Called(ctx, user)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(*entity.Deal) error); ok {
-		r0 = rf(user)
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.Deal) error); ok {
+		r0 = rf(ctx, user)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -27,13 +29,13 @@ func (_m *DealGateway) Create(user *entity.Deal) error {
 	return r0
 }
 
-// FindByID provides a mock function with given fields: id
-func (_m *DealGateway) FindByID(id string) (*entity.Deal, error) {
-	ret := _m.Called(id)
+// FindByID provides a mock function with given fields: ctx, id
+func (_m *DealGateway) FindByID(ctx context.Context, id string) (*entity.Deal, error) {
+	ret := _m.Called(ctx, id)
 
 	var r0 *entity.Deal
-	if rf, ok := ret.Get(0).(func(string) *entity.Deal); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Deal); ok {
+		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.Deal)
@@ -41,8 +43,8 @@ func (_m *DealGateway) FindByID(id string) (*entity.Deal, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(id)
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -50,13 +52,13 @@ func (_m *DealGateway) FindByID(id string) (*entity.Deal, error) {
 	return r0, r1
 }
 
-// FindByUser provides a mock function with given fields: user_id
-func (_m *DealGateway) FindByUser(user_id string) (*entity.Deal, error) {
-	ret := _m.Called(user_id)
+// FindByUser provides a mock function with given fields: ctx, user_id
+func (_m *DealGateway) FindByUser(ctx context.Context, user_id string) (*entity.Deal, error) {
+	ret := _m.Called(ctx, user_id)
 
 	var r0 *entity.Deal
-	if rf, ok := ret.Get(0).(func(string) *entity.Deal); ok {
-		r0 = rf(user_id)
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Deal); ok {
+		r0 = rf(ctx, user_id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.Deal)
@@ -64,8 +66,8 @@ func (_m *DealGateway) FindByUser(user_id string) (*entity.Deal, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(user_id)
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, user_id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -73,13 +75,13 @@ func (_m *DealGateway) FindByUser(user_id string) (*entity.Deal, error) {
 	return r0, r1
 }
 
-// Update provides a mock function with given fields: user
-func (_m *DealGateway) Update(user *entity.Deal) error {
-	ret := _m.Called(user)
+// Update provides a mock function with given fields: ctx, user
+func (_m *DealGateway) Update(ctx context.Context, user *entity.Deal) error {
+	ret := _m.Called(ctx, user)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(*entity.Deal) error); ok {
-		r0 = rf(user)
+	if rf, ok := ret.Get(0).(func(context.Context, *entity.Deal) error); ok {
+		r0 = rf(ctx, user)
 	} else {
 		r0 = ret.Error(0)
 	}

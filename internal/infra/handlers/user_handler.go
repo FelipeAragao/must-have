@@ -31,7 +31,7 @@ func NewUserHandler(ucCreateUser create_user.CreateUserUseCaseInterface, ucFindB
 // @Tags         users
 // @Accept       json
 // @Produce      json
-// @Param        request     body      create_deal.UserInputDTO  true  "user request"
+// @Param        request     body		create_user.UserInputDTO  true  "user request"
 // @Success      201
 // @Failure      500         {object}  Error
 // @Router       /users [post]
@@ -65,7 +65,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 // @Accept       json
 // @Produce      json
 // @Param        id        	path      string                  true  "user ID" Format(uuid)
-// @Param        request     body      update_deal.UserInputDTO  true  "user request"
+// @Param        request     body     create_user.UserInputDTO  true  "user request"
 // @Success      200
 // @Failure      404
 // @Failure      500       {object}  Error
@@ -121,10 +121,6 @@ func (h *UserHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	//ctx := r.Context()
-	//s := ctx.Value(oauth.ClaimsContext).(map[string]string)
-	//fmt.Sprintf(s["id"])
 
 	var dto find_by_id.UserInputDTO
 	dto.ID = id

@@ -77,7 +77,7 @@ func TestUpdateUserUseCase_Execute(t *testing.T) {
 		Photos: []string{"https://www.google.com.br", "https://www.google.com.br"},
 	}
 
-	output, err := uc.Execute(input)
+	output, err := uc.Execute(nil, input)
 
 	assert.Nil(t, err)
 	assert.NotNil(t, output)

@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// todo: adding documentation
+// todo: implement tests for this handler
 type AuthHandler struct {
 	BearerServer *oauth.BearerServer
 }

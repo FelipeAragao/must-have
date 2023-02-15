@@ -1,4 +1,4 @@
-package find_by_id_deal
+package find_by_id
 
 import (
 	"github.com/FelipeAragao/must-have/internal/domain/entity"
@@ -43,7 +43,7 @@ func TestCreateUserUseCase_Execute(t *testing.T) {
 		ID: id.String(),
 	}
 
-	output, err := uc.Execute(input)
+	output, err := uc.Execute(nil, input)
 
 	assert.Nil(t, err)
 	assert.NotNil(t, output)
